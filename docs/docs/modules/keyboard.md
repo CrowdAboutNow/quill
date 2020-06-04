@@ -161,6 +161,8 @@ Some bindings are essential to preventing dangerous browser defaults, such as th
 
 Adding a binding with `quill.keyboard.addBinding` will not run before Quill's because the defaults bindings will have been added by that point.
 
+Each binding config must contain `key` and `handler` options, and may optionally include any of the `context` options.
+
 ```javascript
 var bindings = {
   // This will overwrite the default binding also named 'tab'
@@ -183,9 +185,7 @@ var bindings = {
 
   list: {
     key: 'backspace',
-    context: {
-      format: ['list']
-    },
+    format: ['list'],
     handler: function(range, context) {
       if (context.offset === 0) {
         // When backspace on the first character of a list,
@@ -209,6 +209,6 @@ var quill = new Quill('#editor', {
 ```
 
 
-### Peformance
+### Performance
 
 Like DOM events, Quill key bindings are blocking calls on every match, so it is a bad idea to have a very expensive handler for a very common key binding. Apply the same performance best practices as you would when attaching to common blocking DOM events, like `scroll` or `mousemove`.

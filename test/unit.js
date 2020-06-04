@@ -1,14 +1,14 @@
+/* eslint-disable */
+
 import Quill from '../quill.js';
-import CodeBlock from '../formats/code';
+import CodeBlock, { CodeBlockContainer } from '../formats/code';
 
-Quill.register(CodeBlock, true); // Syntax version will otherwise be registered
+import './helpers/unit';
 
-import './helpers/unit.js';
-
-import './unit/blots/scroll.js';
-import './unit/blots/block.js';
-import './unit/blots/block-embed.js';
-import './unit/blots/inline.js';
+import './unit/blots/scroll';
+import './unit/blots/block';
+import './unit/blots/block-embed';
+import './unit/blots/inline';
 
 import './unit/core/editor';
 import './unit/core/selection';
@@ -23,14 +23,20 @@ import './unit/formats/header';
 import './unit/formats/indent';
 import './unit/formats/list';
 import './unit/formats/bold';
+import './unit/formats/table';
 
 import './unit/modules/clipboard';
 import './unit/modules/history';
 import './unit/modules/keyboard';
+import './unit/modules/syntax';
+import './unit/modules/table';
 import './unit/modules/toolbar';
 
 import './unit/ui/picker';
 import './unit/theme/base/tooltip';
 
+// Syntax version will otherwise be registered
+Quill.register(CodeBlockContainer, true);
+Quill.register(CodeBlock, true);
 
 export default Quill;

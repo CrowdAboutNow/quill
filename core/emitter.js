@@ -1,6 +1,8 @@
 import EventEmitter from 'eventemitter3';
+import instances from './instances';
 import logger from './logger';
 import { SHADOW_SELECTIONCHANGE } from './shadow-selection-polyfill';
+
 
 let debug = logger('quill:events');
 
@@ -8,14 +10,15 @@ const EVENTS = [SHADOW_SELECTIONCHANGE, 'mousedown', 'mouseup', 'click'];
 const EMITTERS = [];
 const supportsRootNode = ('getRootNode' in document);
 
-EVENTS.forEach(function(eventName) {
+
+EVENTS.forEach(eventName => {
   document.addEventListener(eventName, (...args) => {
+
     EMITTERS.forEach((em) => {
       em.handleDOM(...args);
     });
   });
 });
-
 
 class Emitter extends EventEmitter {
   constructor() {
@@ -25,12 +28,13 @@ class Emitter extends EventEmitter {
     this.on('error', debug.error);
   }
 
-  emit() {
-    debug.log.apply(debug, arguments);
-    super.emit.apply(this, arguments);
+  emit(...args) {
+    debug.log.call(debug, ...args);
+    super.emit(...args);
   }
 
   handleDOM(event, ...args) {
+
     const target = (event.composedPath ? event.composedPath()[0] : event.target);
     const containsNode = (node, target) => {
       if (!supportsRootNode || target.getRootNode() === document) {
@@ -50,6 +54,7 @@ class Emitter extends EventEmitter {
 
     (this.listeners[event.type] || []).forEach(function({ node, handler }) {
       if (target === node || containsNode(node, target)) {
+
         handler(event, ...args);
       }
     });
@@ -59,23 +64,24 @@ class Emitter extends EventEmitter {
     if (!this.listeners[eventName]) {
       this.listeners[eventName] = [];
     }
-    this.listeners[eventName].push({ node, handler })
+    this.listeners[eventName].push({ node, handler });
   }
 }
 
 Emitter.events = {
-  EDITOR_CHANGE        : 'editor-change',
-  SCROLL_BEFORE_UPDATE : 'scroll-before-update',
-  SCROLL_OPTIMIZE      : 'scroll-optimize',
-  SCROLL_UPDATE        : 'scroll-update',
-  SELECTION_CHANGE     : 'selection-change',
-  TEXT_CHANGE          : 'text-change'
+  EDITOR_CHANGE: 'editor-change',
+  SCROLL_BEFORE_UPDATE: 'scroll-before-update',
+  SCROLL_BLOT_MOUNT: 'scroll-blot-mount',
+  SCROLL_BLOT_UNMOUNT: 'scroll-blot-unmount',
+  SCROLL_OPTIMIZE: 'scroll-optimize',
+  SCROLL_UPDATE: 'scroll-update',
+  SELECTION_CHANGE: 'selection-change',
+  TEXT_CHANGE: 'text-change',
 };
 Emitter.sources = {
-  API    : 'api',
-  SILENT : 'silent',
-  USER   : 'user'
+  API: 'api',
+  SILENT: 'silent',
+  USER: 'user',
 };
-
 
 export default Emitter;
