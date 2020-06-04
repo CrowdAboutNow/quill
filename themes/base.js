@@ -172,8 +172,18 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
             fileInput.classList.add('ql-image');
             fileInput.addEventListener('change', () => {
               const range = this.quill.getSelection(true);
-              this.quill.uploader.upload(range, fileInput.files);
-              fileInput.value = '';
+
+              const maxSize = 5242880;
+              const fileSize = fileInput.files[0].size;
+
+              if (fileSize <= maxSize) {
+                this.quill.uploader.upload(range, fileInput.files);
+                fileInput.value = '';
+              } else {
+                alert(
+                  'Dit bestand is groter dan de maximale bestandsgrootte (5MB)',
+                );
+              }
             });
             this.container.appendChild(fileInput);
           }
