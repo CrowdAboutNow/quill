@@ -173,31 +173,30 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
             fileInput.classList.add("ql-image");
             fileInput.addEventListener("change", () => {
               if (fileInput.files != null && fileInput.files[0] != null) {
-                debugger;
-                // const maxSize = 5242880; // Max filesize of 5MB (in bytes)
-                // const fileSize = fileInput.files[0].size;
+                const maxSize = 5242880; // Max filesize of 5MB (in bytes)
+                const fileSize = fileInput.files[0].size;
 
-                // if (fileSize <= maxSize ) {
-                let reader = new FileReader();
-                reader.onload = (e) => {
-                  let range = this.quill.getSelection(true);
-                  this.quill.updateContents(
-                    new Delta()
-                      .retain(range.index)
-                      .delete(range.length)
-                      .insert({ image: e.target.result }),
-                    Emitter.sources.USER
-                  );
-                  this.quill.setSelection(
-                    range.index + 1,
-                    Emitter.sources.SILENT
-                  );
-                  fileInput.value = "";
-                };
-                reader.readAsDataURL(fileInput.files[0]);
-                // } else {
-                // alert (' Bestand te groot, upload een bestand van max 5MB')
-                // }
+                if (fileSize <= maxSize) {
+                  let reader = new FileReader();
+                  reader.onload = (e) => {
+                    let range = this.quill.getSelection(true);
+                    this.quill.updateContents(
+                      new Delta()
+                        .retain(range.index)
+                        .delete(range.length)
+                        .insert({ image: e.target.result }),
+                      Emitter.sources.USER
+                    );
+                    this.quill.setSelection(
+                      range.index + 1,
+                      Emitter.sources.SILENT
+                    );
+                    fileInput.value = "";
+                  };
+                  reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                  alert(" Bestand te groot, upload een bestand van max 5MB");
+                }
               }
             });
             this.container.appendChild(fileInput);
