@@ -195,7 +195,13 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
                   };
                   reader.readAsDataURL(fileInput.files[0]);
                 } else {
-                  alert(" Bestand te groot, upload een bestand van max 5MB");
+                  const event = new CustomEvent("file-size-error", {
+                    detail: {
+                      fileSize: fileSize,
+                    },
+                    bubbles: true,
+                  });
+                  this.dispatchEvent(event);
                 }
               }
             });
