@@ -195,13 +195,7 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
                   };
                   reader.readAsDataURL(fileInput.files[0]);
                 } else {
-                  const event = new CustomEvent("file-size-error", {
-                    detail: {
-                      fileSize: fileSize,
-                    },
-                    bubbles: true,
-                  });
-                  this.dispatchEvent(event);
+                  alert("alert");
                 }
               }
             });
