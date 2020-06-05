@@ -173,7 +173,7 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
             fileInput.classList.add("ql-image");
             fileInput.addEventListener("change", () => {
               if (fileInput.files != null && fileInput.files[0] != null) {
-                const maxSize = 5242880; // Max filesize of 5MB (in bytes)
+                const maxSize = this.quill.options.image.maxSize; // Max filesize in bytes
                 const fileSize = fileInput.files[0].size;
 
                 if (fileSize <= maxSize) {
@@ -195,7 +195,7 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
                   };
                   reader.readAsDataURL(fileInput.files[0]);
                 } else {
-                  alert("alert");
+                  this.quill.options.image.errorHandler();
                 }
               }
             });
