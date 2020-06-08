@@ -173,10 +173,10 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
             fileInput.classList.add("ql-image");
             fileInput.addEventListener("change", () => {
               if (fileInput.files != null && fileInput.files[0] != null) {
-                const maxSize = this.quill.options.image.maxSize; // Max filesize in bytes
+                const maxFileSize = this.quill.options.image.maxFileSize; // Max filesize in bytes
                 const fileSize = fileInput.files[0].size;
 
-                if (fileSize <= maxSize) {
+                if (fileSize <= maxFileSize) {
                   let reader = new FileReader();
                   reader.onload = (e) => {
                     let range = this.quill.getSelection(true);
