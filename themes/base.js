@@ -195,6 +195,7 @@ BaseTheme.DEFAULTS = extend(true, {}, Theme.DEFAULTS, {
                   };
                   reader.readAsDataURL(fileInput.files[0]);
                 } else {
+                  fileInput.parentNode.removeChild(fileInput);
                   this.quill.options.image.errorHandler();
                 }
               }
