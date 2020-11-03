@@ -259,12 +259,10 @@ export function getRange(root) {
   window.setTimeout(() => {
     cachedRange.delete(root);
   }, 0);
-  debug && console.debug("getRange got", result);
   return result.range;
 }
 
 export function internalGetShadowSelection(root) {
-  // debugger
   // nb. We used to check whether the selection contained the host, but this broke in Safari 13.
   // This is "nicely formatted" whitespace as per the browser's renderer. This is fine, and we only
   // provide selection information at this granularity.
